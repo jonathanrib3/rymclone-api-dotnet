@@ -1,0 +1,11 @@
+# directories
+.vscode/
+.vs/
+bin/
+obj/
+
+# configs
+global.json
+
+# env
+.env
