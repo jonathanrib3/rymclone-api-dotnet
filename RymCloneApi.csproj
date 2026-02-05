@@ -28,7 +28,7 @@
   <ItemGroup>
     <Folder Include="src\Entities\" />
     <Folder Include="src\Application\" />
-    <Folder Include="src\Persistence\" />
+    <Folder Include="src\Persistence\Configurations\" />
     <Folder Include="src\Service\" />
     <Folder Include="src\Presentation\" />
     <Folder Include="src\Presentation\Views\" />
