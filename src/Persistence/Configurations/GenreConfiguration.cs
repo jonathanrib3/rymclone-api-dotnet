@@ -9,7 +9,14 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
 {
   public void Configure(EntityTypeBuilder<Genre> builder)
   {
-    builder.Property(s => s.Name).HasMaxLength(100).HasColumnType("varchar").IsRequired();
+    builder.ToTable("genres");
+    builder.Property(e => e.Id).HasColumnName("id");
+    builder
+      .Property(s => s.Name)
+      .HasColumnName("name")
+      .HasMaxLength(100)
+      .HasColumnType("varchar")
+      .IsRequired();
     builder.HasMany<Album>(e => e.Albums);
   }
 }

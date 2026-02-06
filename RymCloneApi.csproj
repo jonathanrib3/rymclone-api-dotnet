@@ -29,6 +29,8 @@
     <Folder Include="src\Entities\" />
     <Folder Include="src\Application\" />
     <Folder Include="src\Persistence\Configurations\" />
+    <Folder Include="src\Persistence\Seeds\" />
+    <Folder Include="src\Persistence\Seeds\Interfaces\" />
     <Folder Include="src\Service\" />
     <Folder Include="src\Presentation\" />
     <Folder Include="src\Presentation\Views\" />

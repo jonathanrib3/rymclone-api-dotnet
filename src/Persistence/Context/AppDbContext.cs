@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using RymCloneApi.src.Domain;
 using RymCloneApi.src.Providers;
 
@@ -35,10 +36,17 @@ public class AppDbContext : DbContext
     base.OnModelCreating(modelBuilder);
   }
 
+  private async Task CreateDatabase()
+  {
+    using (var sqlCommand = new NpgsqlCommand())
+    {
+      string createDbQuery = $"CREATE DATABASE {_dbDatabase} IF NOT EXISTS;";
+      await sqlCommand.ExecuteReaderAsync();
+    }
+  }
+
   private string GetDbConectionString() =>
     $"Host={_dbHost};Username={_dbUser};Password={_dbPassword};Database={_dbDatabase}";
-
-  //$"postgresql://{_dbUser}:{_dbPassword}@{_dbHost}/{_dbDatabase}";
 
   public DbSet<Genre> Genres { get; set; }
   public DbSet<Artist> Artists { get; set; }

@@ -9,7 +9,14 @@ public class ArtistConfiguration : IEntityTypeConfiguration<Artist>
 {
   public void Configure(EntityTypeBuilder<Artist> builder)
   {
-    builder.Property(s => s.Name).HasMaxLength(250).HasColumnType("varchar").IsRequired();
+    builder.ToTable("artists");
+    builder.Property(e => e.Id).HasColumnName("id");
+    builder
+      .Property(s => s.Name)
+      .HasColumnName("name")
+      .HasMaxLength(250)
+      .HasColumnType("varchar")
+      .IsRequired();
     builder.HasMany<Album>(e => e.Albums);
   }
 }

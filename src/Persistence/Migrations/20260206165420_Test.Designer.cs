@@ -12,7 +12,7 @@ using RymCloneApi.src.Persistence.Context;
 namespace RymCloneApi.src.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260205212709_Test")]
+    [Migration("20260206165420_Test")]
     partial class Test
     {
         /// <inheritdoc />
@@ -25,96 +25,91 @@ namespace RymCloneApi.src.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AlbumGenre", b =>
-                {
-                    b.Property<int>("AlbumsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("GenresId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AlbumsId", "GenresId");
-
-                    b.HasIndex("GenresId");
-
-                    b.ToTable("AlbumGenre");
-                });
-
             modelBuilder.Entity("RymCloneApi.src.Domain.Album", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ArtistId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("artist_id");
 
                     b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("date")
+                        .HasColumnName("release_date");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("varchar");
+                        .HasColumnType("varchar")
+                        .HasColumnName("title");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ArtistId");
 
-                    b.ToTable("Albums");
+                    b.ToTable("albums", (string)null);
+                });
+
+            modelBuilder.Entity("RymCloneApi.src.Domain.AlbumGenre", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("integer")
+                        .HasColumnName("album_id");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("integer")
+                        .HasColumnName("genre_id");
+
+                    b.HasKey("AlbumId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("albums_genres", (string)null);
                 });
 
             modelBuilder.Entity("RymCloneApi.src.Domain.Artist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("varchar");
+                        .HasColumnType("varchar")
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Artists");
+                    b.ToTable("artists", (string)null);
                 });
 
             modelBuilder.Entity("RymCloneApi.src.Domain.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar");
+                        .HasColumnType("varchar")
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
-                });
-
-            modelBuilder.Entity("AlbumGenre", b =>
-                {
-                    b.HasOne("RymCloneApi.src.Domain.Album", null)
-                        .WithMany()
-                        .HasForeignKey("AlbumsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RymCloneApi.src.Domain.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("genres", (string)null);
                 });
 
             modelBuilder.Entity("RymCloneApi.src.Domain.Album", b =>
@@ -126,6 +121,21 @@ namespace RymCloneApi.src.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Artist");
+                });
+
+            modelBuilder.Entity("RymCloneApi.src.Domain.AlbumGenre", b =>
+                {
+                    b.HasOne("RymCloneApi.src.Domain.Album", null)
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RymCloneApi.src.Domain.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RymCloneApi.src.Domain.Artist", b =>

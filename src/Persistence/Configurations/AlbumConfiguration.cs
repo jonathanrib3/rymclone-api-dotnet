@@ -9,9 +9,21 @@ public class AlbumConfiguration : IEntityTypeConfiguration<Album>
 {
   public void Configure(EntityTypeBuilder<Album> builder)
   {
-    builder.Property(e => e.Title).HasColumnType("varchar").HasMaxLength(250).IsRequired();
-    builder.Property(e => e.ReleaseDate).HasColumnType("datetime").IsRequired();
+    builder.ToTable("albums");
+    builder.Property(e => e.Id).HasColumnName("id");
+    builder
+      .Property(e => e.Title)
+      .HasColumnName("title")
+      .HasColumnType("varchar")
+      .HasMaxLength(250)
+      .IsRequired();
+    builder
+      .Property(e => e.ReleaseDate)
+      .HasColumnName("release_date")
+      .HasColumnType("date")
+      .IsRequired();
+    builder.Property(e => e.ArtistId).HasColumnName("artist_id");
     builder.HasOne(e => e.Artist).WithMany(e => e.Albums).HasForeignKey(e => e.ArtistId);
-    builder.HasMany(e => e.Genres);
+    builder.HasMany(e => e.Genres).WithMany(e => e.Albums).UsingEntity<AlbumGenre>();
   }
 }

@@ -1,9 +1,6 @@
-using System;
-using System.IO;
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using RymCloneApi.src.Providers;
 
 namespace RymCloneApi.src.Persistence.Context;

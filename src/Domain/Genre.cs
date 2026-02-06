@@ -9,14 +9,13 @@ public class Genre
     Albums = [];
   }
 
-  public Genre(int id, string name, ICollection<Album>? albums)
+  public Genre(string name, ICollection<Album>? albums)
   {
-    Id = id;
     Name = name;
     Albums = albums ?? [];
   }
 
-  public int Id { get; set; }
+  public int? Id { get; set; }
   public string Name { get; set; }
   public ICollection<Album> Albums { get; set; }
 }
