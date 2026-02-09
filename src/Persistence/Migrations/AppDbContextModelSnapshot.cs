@@ -22,6 +22,23 @@ namespace RymCloneApi.src.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AlbumGenre", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("integer")
+                        .HasColumnName("album_id");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("integer")
+                        .HasColumnName("genre_id");
+
+                    b.HasKey("AlbumId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("albums_genres", (string)null);
+                });
+
             modelBuilder.Entity("RymCloneApi.src.Domain.Album", b =>
                 {
                     b.Property<int>("Id")
@@ -31,7 +48,7 @@ namespace RymCloneApi.src.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArtistId")
+                    b.Property<int?>("ArtistId")
                         .HasColumnType("integer")
                         .HasColumnName("artist_id");
 
@@ -50,23 +67,6 @@ namespace RymCloneApi.src.Persistence.Migrations
                     b.HasIndex("ArtistId");
 
                     b.ToTable("albums", (string)null);
-                });
-
-            modelBuilder.Entity("RymCloneApi.src.Domain.AlbumGenre", b =>
-                {
-                    b.Property<int>("AlbumId")
-                        .HasColumnType("integer")
-                        .HasColumnName("album_id");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("integer")
-                        .HasColumnName("genre_id");
-
-                    b.HasKey("AlbumId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("albums_genres", (string)null);
                 });
 
             modelBuilder.Entity("RymCloneApi.src.Domain.Artist", b =>
@@ -109,18 +109,7 @@ namespace RymCloneApi.src.Persistence.Migrations
                     b.ToTable("genres", (string)null);
                 });
 
-            modelBuilder.Entity("RymCloneApi.src.Domain.Album", b =>
-                {
-                    b.HasOne("RymCloneApi.src.Domain.Artist", "Artist")
-                        .WithMany("Albums")
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Artist");
-                });
-
-            modelBuilder.Entity("RymCloneApi.src.Domain.AlbumGenre", b =>
+            modelBuilder.Entity("AlbumGenre", b =>
                 {
                     b.HasOne("RymCloneApi.src.Domain.Album", null)
                         .WithMany()
@@ -133,6 +122,15 @@ namespace RymCloneApi.src.Persistence.Migrations
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RymCloneApi.src.Domain.Album", b =>
+                {
+                    b.HasOne("RymCloneApi.src.Domain.Artist", "Artist")
+                        .WithMany("Albums")
+                        .HasForeignKey("ArtistId");
+
+                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("RymCloneApi.src.Domain.Artist", b =>

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RymCloneApi.src.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Test : Migration
+    public partial class CreateAlbumsGenresAndArtists : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,7 +46,7 @@ namespace RymCloneApi.src.Persistence.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     title = table.Column<string>(type: "varchar", maxLength: 250, nullable: false),
                     release_date = table.Column<DateTime>(type: "date", nullable: false),
-                    artist_id = table.Column<int>(type: "integer", nullable: false)
+                    artist_id = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,8 +55,7 @@ namespace RymCloneApi.src.Persistence.Migrations
                         name: "FK_albums_artists_artist_id",
                         column: x => x.artist_id,
                         principalTable: "artists",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(

@@ -4,6 +4,24 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="src\Application\**" />
+    <Compile Remove="src\Entities\**" />
+    <Compile Remove="src\Presentation\**" />
+    <Compile Remove="src\Service\**" />
+    <Content Remove="src\Application\**" />
+    <Content Remove="src\Entities\**" />
+    <Content Remove="src\Presentation\**" />
+    <Content Remove="src\Service\**" />
+    <EmbeddedResource Remove="src\Application\**" />
+    <EmbeddedResource Remove="src\Entities\**" />
+    <EmbeddedResource Remove="src\Presentation\**" />
+    <EmbeddedResource Remove="src\Service\**" />
+    <None Remove="src\Application\**" />
+    <None Remove="src\Entities\**" />
+    <None Remove="src\Presentation\**" />
+    <None Remove="src\Service\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="dotenv.net" Version="2.1.3" />
@@ -26,13 +44,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\Entities\" />
-    <Folder Include="src\Application\" />
     <Folder Include="src\Persistence\Configurations\" />
     <Folder Include="src\Persistence\Seeds\" />
     <Folder Include="src\Persistence\Seeds\Interfaces\" />
-    <Folder Include="src\Service\" />
-    <Folder Include="src\Presentation\" />
-    <Folder Include="src\Presentation\Views\" />
   </ItemGroup>
 </Project>
