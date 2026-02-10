@@ -1,4 +1,4 @@
-using RymCloneApi.src.Providers;
+using System.ComponentModel.DataAnnotations;
 
 namespace RymCloneApi.src.Domain;
 
@@ -14,8 +14,10 @@ public class Genre
     Name = name;
     Albums = albums ?? [];
   }
-
+  [Key]
   public int? Id { get; set; }
+  [Required]
+  [MaxLength(100)]
   public string? Name { get; set; }
   public ICollection<Album> Albums { get; set; }
 }

@@ -16,8 +16,7 @@ namespace RymCloneApi.src.Controllers.v1
       _context = context;
     }
 
-    [HttpGet]
-    [Route("albums")]
+    [HttpGet("albums")]
     public async Task<ActionResult<IEnumerable<Album>>> Index()
     {
       var albums = await _context.Albums.ToListAsync();
@@ -27,14 +26,29 @@ namespace RymCloneApi.src.Controllers.v1
       return albums;
     }
 
-    [HttpGet]
-    [Route("albums/{id:int}")]
+    [HttpGet("albums/{id:int:min(1)}")]
     public async Task<ActionResult<Album>> Show(int id)
     {
       var album = await _context.Albums.Include(e => e.Artist).Include(e => e.Genres).FirstOrDefaultAsync(album => album.Id == id);
       if (album == null) return NotFound();
 
       return album;
+    }
+
+    // [HttpPost("albums")]
+    public async Task<ActionResult> Create([FromBody] Album album)
+    {
+      try
+      {
+        await _context.Albums.AddAsync(album);
+        await _context.SaveChangesAsync();
+
+        return Created();
+      }
+      catch (Exception ex)
+      {
+        return UnprocessableEntity(ex);
+      }
     }
   }
 }

@@ -12,7 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers().AddJsonOptions(options =>
-  options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+{
+  options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+  options.JsonSerializerOptions.IncludeFields = true;
+});
 builder.Services.AddScoped<AppDbContextInitializer>();
 builder.Services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 builder.Services.AddDbContext<AppDbContext>();

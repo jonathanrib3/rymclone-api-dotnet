@@ -2,15 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using RymCloneApi.src.Domain;
 using RymCloneApi.src.Persistence.Context;
+using RymCloneApi.src.Persistence.Context.Interfaces;
 
 namespace RymCloneApi.src.Controllers.v1
 {
   [ApiController]
   public class GenreController : ApplicationV1Controller
   {
-    private readonly AppDbContext _context;
+    private readonly IAppDbContext _context;
 
-    public GenreController(AppDbContext context)
+    public GenreController(IAppDbContext context)
     {
       _context = context;
     }
@@ -55,13 +56,13 @@ namespace RymCloneApi.src.Controllers.v1
       }
     }
 
-    [HttpPut("genres/{id:int}")]
+    [HttpPut("genres/{id:int:min(1)}")]
     public async Task<ActionResult> Update(int id, Genre genre)
     {
       try
       {
         _context.Genres.Entry(genre).State = EntityState.Modified;
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return Ok(genre);
       }
@@ -79,7 +80,7 @@ namespace RymCloneApi.src.Controllers.v1
       if(genre == null) return NotFound();
 
       _context.Genres.Remove(genre);
-      _context.SaveChanges();
+      await _context.SaveChangesAsync();
 
       return Ok(genre);
     }
