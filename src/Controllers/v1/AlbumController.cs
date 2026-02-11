@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RymCloneApi.src.Domain;
+using RymCloneApi.src.Exceptions.NotFoundErrorException;
 using RymCloneApi.src.Persistence.Context.Interfaces;
+using System.Net;
 
 namespace RymCloneApi.src.Controllers.v1
 {
@@ -30,7 +31,7 @@ namespace RymCloneApi.src.Controllers.v1
     public async Task<ActionResult<Album>> Show(int id)
     {
       var album = await _context.Albums.Include(e => e.Artist).Include(e => e.Genres).FirstOrDefaultAsync(album => album.Id == id);
-      if (album == null) return NotFound();
+      if (album == null) throw new NotFoundException(statusCode: (int)HttpStatusCode.NotFound, message: $"Album with ID {id} not found");
 
       return album;
     }

@@ -1,40 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RymCloneApi.src.Domain;
-using RymCloneApi.src.Persistence.Context;
-using RymCloneApi.src.Persistence.Context.Interfaces;
+using RymCloneApi.src.Persistence.Repositories;
 
 namespace RymCloneApi.src.Controllers.v1
 {
   [ApiController]
   public class GenreController : ApplicationV1Controller
   {
-    private readonly IAppDbContext _context;
+    private readonly IRepository<Genre> _repository;
 
-    public GenreController(IAppDbContext context)
+    public GenreController(IRepository<Genre> repository)
     {
-      _context = context;
+      _repository = repository;
     }
 
     [HttpGet]
     [Route("genres")]
     public async Task<ActionResult<IEnumerable<Genre>>> Index()
     {
-      List<Genre> genres = await _context.Genres.ToListAsync();
+      var genres = await _repository.GetAllAsync();
 
-      if (genres.Count == 0)
+      if (!genres.Any())
       {
         return NoContent();
       }
 
-      return genres;
+      return Ok(genres);
     }
 
     [HttpGet]
-    [Route("genres/{id:int}", Name = "ShowAlbum")]
+    [Route("genres/{id:int}")]
     public async Task<ActionResult<Genre>> Show(int id)
     {
-      var genre = await _context.Genres.FirstOrDefaultAsync(genre => genre.Id == id);
+      var genre = await _repository.GetByIdAsync(id);
       if (genre == null) return NotFound();
 
       return genre;
@@ -45,8 +44,7 @@ namespace RymCloneApi.src.Controllers.v1
     {
       try
       {
-        var test = await _context.Genres.AddAsync(genre);
-        await _context.SaveChangesAsync();
+        var test = await _repository.AddAsync(genre);
 
         return Created();
       }
@@ -61,8 +59,7 @@ namespace RymCloneApi.src.Controllers.v1
     {
       try
       {
-        _context.Genres.Entry(genre).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        await _repository.UpdateAsync(genre);
 
         return Ok(genre);
       }
@@ -75,14 +72,9 @@ namespace RymCloneApi.src.Controllers.v1
     [HttpDelete("genres/{id:int}")]
     public async Task<ActionResult> Destroy(int id)
     {
-      var genre = await _context.Genres.FirstOrDefaultAsync(e => e.Id == id);
+      var result = await _repository.DeleteAsync(id);
 
-      if(genre == null) return NotFound();
-
-      _context.Genres.Remove(genre);
-      await _context.SaveChangesAsync();
-
-      return Ok(genre);
+      return result ? Ok(result) : UnprocessableEntity();
     }
   }
 }

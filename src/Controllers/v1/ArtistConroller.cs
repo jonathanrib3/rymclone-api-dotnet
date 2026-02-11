@@ -22,7 +22,7 @@ namespace RymCloneApi.src.Controllers.v1
       var artists = await _context.Artists.ToListAsync();
 
       if (artists.Count == 0) return NoContent();
-
+    
       return artists;
     }
   }

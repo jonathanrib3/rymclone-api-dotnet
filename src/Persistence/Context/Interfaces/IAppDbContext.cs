@@ -11,5 +11,6 @@ namespace RymCloneApi.src.Persistence.Context.Interfaces
     public DbSet<Album> Albums { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    abstract int SaveChanges();
   }
 }
