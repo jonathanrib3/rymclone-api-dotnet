@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RymCloneApi.src.Domain;
 using RymCloneApi.src.Exceptions.InternalServerErrorException;
 using RymCloneApi.src.Exceptions.NotFoundErrorException;
+using RymCloneApi.src.Exceptions.UnprocessableEntityException;
 using RymCloneApi.src.Persistence;
 using RymCloneApi.src.Persistence.Context;
 using RymCloneApi.src.Persistence.Context.Interfaces;
@@ -17,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
+builder.Services.AddExceptionHandler<UnprocessableEntityExceptionHandler>();
 builder.Services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

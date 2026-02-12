@@ -2,17 +2,17 @@
 using RymCloneApi.src.Domain;
 using System.Net;
 
-namespace RymCloneApi.src.Exceptions.NotFoundErrorException
+namespace RymCloneApi.src.Exceptions.UnprocessableEntityException
 {
-  public class NotFoundExceptionHandler : IExceptionHandler
+  public class UnprocessableEntityExceptionHandler : IExceptionHandler
   {
 
     public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)
     {
-      if (exception is not NotFoundException) return false;
+      if (exception is not UnprocessableEntityException) return false;
 
       context.Response.ContentType = "application/json";
-      context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+      context.Response.StatusCode = (int)HttpStatusCode.UnprocessableContent;
       await context.Response.WriteAsync(
         new ProblemDetails()
         {

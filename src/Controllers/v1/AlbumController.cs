@@ -31,7 +31,7 @@ namespace RymCloneApi.src.Controllers.v1
     public async Task<ActionResult<Album>> Show(int id)
     {
       var album = await _context.Albums.Include(e => e.Artist).Include(e => e.Genres).FirstOrDefaultAsync(album => album.Id == id);
-      if (album == null) throw new NotFoundException(statusCode: (int)HttpStatusCode.NotFound, message: $"Album with ID {id} not found");
+      if (album == null) throw new NotFoundException($"Album with ID {id} not found");
 
       return album;
     }

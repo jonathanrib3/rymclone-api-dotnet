@@ -7,12 +7,8 @@ namespace RymCloneApi.src.Exceptions
     public int StatusCode { get; set; }
     public string? Trace { get; set; }
     public Exception? Cause { get; set; }
-    public HttpException(int statusCode, string message, string? trace = null, Exception? cause = null)
-      : base(message)
+    public HttpException(string message) : base(message)
     {
-      StatusCode = statusCode;
-      Trace = trace;
-      Cause = cause;
     }
   }
 }

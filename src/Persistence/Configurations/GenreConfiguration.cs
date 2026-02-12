@@ -17,6 +17,16 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
       .HasMaxLength(100)
       .HasColumnType("varchar")
       .IsRequired();
-    builder.HasMany<Album>(e => e.Albums);
+    builder.HasMany<Album>(e => e.Albums).WithMany(e => e.Genres).UsingEntity(
+      "AlbumGenre",
+      rightTable => rightTable.HasOne(typeof(Album)).WithMany().HasForeignKey("AlbumId"),
+      leftTable => leftTable.HasOne(typeof(Genre)).WithMany().HasForeignKey("GenreId").OnDelete(DeleteBehavior.Restrict),
+      joinTable =>
+      {
+        joinTable.ToTable("albums_genres");
+        joinTable.Property<int>("AlbumId").HasColumnName("album_id");
+        joinTable.Property<int>("GenreId").HasColumnName("genre_id");
+      }
+    );
   }
 }

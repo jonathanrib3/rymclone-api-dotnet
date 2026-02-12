@@ -15,7 +15,7 @@ namespace RymCloneApi.src.Exceptions.InternalServerErrorException
         new ProblemDetails()
         {
           Description = exception.Message,
-          Title = nameof(exception)
+          Title = exception.GetType().ToString()
         }.ToString());
 
       return true;

@@ -120,7 +120,7 @@ namespace RymCloneApi.src.Persistence.Migrations
                     b.HasOne("RymCloneApi.src.Domain.Genre", null)
                         .WithMany()
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

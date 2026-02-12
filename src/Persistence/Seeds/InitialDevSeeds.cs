@@ -44,15 +44,15 @@ public class InitialDevSeeds : ISeed
       new(title: "Caligula", releaseDate: DateTime.Today, artist: artists[3], genres: [genres[3]]),
     ];
 
-    foreach( Artist artist in artists )
+    foreach(Artist artist in artists)
     {
       context.Add<Artist>(artist);
     }
-    foreach (Genre genre in genres)
+    foreach(Genre genre in genres)
     {
       context.Add<Genre>(genre);
     }
-    foreach (Album album in albums)
+    foreach(Album album in albums)
     {
       context.Add<Album>(album);
     }

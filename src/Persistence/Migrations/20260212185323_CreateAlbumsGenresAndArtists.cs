@@ -79,7 +79,7 @@ namespace RymCloneApi.src.Persistence.Migrations
                         column: x => x.genre_id,
                         principalTable: "genres",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

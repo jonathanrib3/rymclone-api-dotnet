@@ -33,7 +33,7 @@ namespace RymCloneApi.src.Controllers.v1
     [Route("genres/{id:int}")]
     public async Task<ActionResult<Genre>> Show(int id)
     {
-      var genre = await _repository.GetByIdAsync(id);
+      var genre = await _repository.Get(g => g.Id == id);
       if (genre == null) return NotFound();
 
       return genre;

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RymCloneApi.src.Domain;
+using RymCloneApi.src.Exceptions.NotFoundErrorException;
+using RymCloneApi.src.Exceptions.UnprocessableEntityException;
 using RymCloneApi.src.Persistence.Context.Interfaces;
 using System.Linq.Expressions;
 
@@ -12,7 +14,7 @@ namespace RymCloneApi.src.Persistence.Repositories.Genres
     {
       _context = context;
     }
-    public async Task<Genre> AddAsync(Genre genre)
+    public async Task<Genre> CreateAsync(Genre genre)
     {
       await _context.Genres.AddAsync(genre);
       await _context.SaveChangesAsync();
@@ -22,18 +24,12 @@ namespace RymCloneApi.src.Persistence.Repositories.Genres
 
     public async Task<IEnumerable<Genre>> GetAllAsync()
     {
-      return await _context.Genres.ToListAsync() ?? [];
+      return await _context.Genres.AsNoTracking().ToListAsync() ?? [];
     }
 
-    //public async Task<Genre?> GetByIdAsync(int id)
-    //{
-    //  return await _context.Genres.FindAsync(id);
-    //}
-
-    public async Task<Genre> Get(Expression<Func<Genre, bool>> predicate)
+    public async Task<Genre?> Get(Expression<Func<Genre, bool>> predicate)
     {
-      // implementar o método de set no context na interface.
-      //return _context.Set<>
+      return await _context.Set<Genre>().Include(g => g.Albums).FirstOrDefaultAsync(predicate);
     }
 
     public async Task<Genre> UpdateAsync(Genre genre)
@@ -46,11 +42,24 @@ namespace RymCloneApi.src.Persistence.Repositories.Genres
 
     public async Task<bool> DeleteAsync(int id)
     {
-      var genre = await _context.Genres.FindAsync(id);
-      _context.Genres.Remove(genre);
-      var affectedRows = await _context.SaveChangesAsync();
+      try
+      {
+        var genre = await _context.Genres.FindAsync(id);
+        if (genre == null) throw new NotFoundException(message: $"Genre with id {id} does not exist");
+        _context.Genres.Remove(genre);
+        var affectedRows = await _context.SaveChangesAsync();
 
-      return affectedRows > 0;
+        return affectedRows > 0;
+      }
+      catch (DbUpdateException ex)
+      {
+        throw new UnprocessableEntityException("Cannot delete a Genre that has albums - make sure to delete or modify this Genre's albums before deleting it.")
+        {
+          Trace = ex.StackTrace,
+          Cause = ex
+        };
+      }
+
     }
   }
 }
