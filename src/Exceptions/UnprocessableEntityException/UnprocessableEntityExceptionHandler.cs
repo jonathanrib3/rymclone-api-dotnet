@@ -13,11 +13,12 @@ namespace RymCloneApi.src.Exceptions.UnprocessableEntityException
 
       context.Response.ContentType = "application/json";
       context.Response.StatusCode = (int)HttpStatusCode.UnprocessableContent;
+      var test = typeof(Exception);
       await context.Response.WriteAsync(
         new ProblemDetails()
         {
           Description = exception.Message,
-          Title = exception.GetType().ToString()
+          Title = exception.GetType().Name
         }.ToString());
 
       return true;

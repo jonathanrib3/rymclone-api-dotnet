@@ -9,6 +9,7 @@ using RymCloneApi.src.Persistence.Context;
 using RymCloneApi.src.Persistence.Context.Interfaces;
 using RymCloneApi.src.Persistence.Repositories;
 using RymCloneApi.src.Persistence.Repositories.Genres;
+using RymCloneApi.src.Persistence.UnitOfWork;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 
@@ -29,6 +30,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddScoped<AppDbContextInitializer>();
 builder.Services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRepository<Genre>,  GenresRepository>();
 
 var app = builder.Build();

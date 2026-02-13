@@ -17,7 +17,7 @@ namespace RymCloneApi.src.Exceptions.NotFoundErrorException
         new ProblemDetails()
         {
           Description = exception.Message,
-          Title = exception.GetType().ToString()
+          Title = exception.GetType().Name
         }.ToString());
 
       return true;

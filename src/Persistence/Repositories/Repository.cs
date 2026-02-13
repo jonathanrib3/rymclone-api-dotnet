@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RymCloneApi.src.Exceptions.UnprocessableEntityException;
 using RymCloneApi.src.Persistence.Context.Interfaces;
 using System.Linq.Expressions;
 
