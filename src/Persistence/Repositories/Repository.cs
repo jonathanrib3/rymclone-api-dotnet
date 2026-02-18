@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RymCloneApi.src.Domain;
 using RymCloneApi.src.Exceptions.UnprocessableEntityException;
+using RymCloneApi.src.Persistence.Context.Extensions;
 using RymCloneApi.src.Persistence.Context.Interfaces;
 using System.Linq.Expressions;
 
@@ -14,31 +16,36 @@ namespace RymCloneApi.src.Persistence.Repositories
       _context = context;
     }
 
-    public async Task<TEntity> CreateAsync(TEntity entity)
+    public virtual async Task<TEntity> CreateAsync(TEntity entity)
     {
       await _context.Set<TEntity>().AddAsync(entity);
 
       return entity;
     }
 
-    public TEntity Delete(TEntity entity)
+    public virtual TEntity Delete(TEntity entity)
     {
       _context.Set<TEntity>().Remove(entity);
 
       return entity;
     }
 
-    public TEntity? Get(Expression<Func<TEntity, bool>> predicate)
+    public virtual TEntity? Get(Expression<Func<TEntity, bool>> predicate)
     {
-      return _context.Set<TEntity>().FirstOrDefault();
+      return _context.Set<TEntity>().FirstOrDefault(predicate);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    public virtual TEntity? Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+    {
+      return _context.Set<TEntity>().IncludeMultiple(includes).FirstOrDefault(predicate);
+    }
+
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
       return await _context.Set<TEntity>().ToListAsync();
     }
 
-    public TEntity Update(TEntity entity)
+    public virtual TEntity Update(TEntity entity)
     {
       _context.Set<TEntity>().Update(entity);
 

@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RymCloneApi.src.Domain;
+using RymCloneApi.src.Domain.DTOs.v1;
+using RymCloneApi.src.Domain.DTOs.v1.Extensions;
+using RymCloneApi.src.Domain.Validators;
 using RymCloneApi.src.Exceptions.UnprocessableEntityException;
 using RymCloneApi.src.Persistence.Repositories;
 using RymCloneApi.src.Persistence.UnitOfWork;
@@ -44,35 +48,29 @@ namespace RymCloneApi.src.Controllers.v1
     }
 
     [HttpPost("genres")]
-    public async Task<ActionResult> Create(Genre genre)
+    public async Task<ActionResult> Create(CreateGenreRequestDTO genreDTO)
     {
-      try
-      {
-        var test = await _repository.CreateAsync(genre);
-        await _unitOfWork.Commit();
+      Genre genre = genreDTO.FromCreateGenreRequestToGenre();
+      GenreValidator validator = new GenreValidator();
+      validator.ValidateAndThrow(genre);
+      await _repository.CreateAsync(genre);
+      await _unitOfWork.Commit();
 
-        return Created();
-      }
-      catch (Exception ex)
-      {
-        return UnprocessableEntity(new { message = ex.Message });
-      }
+      return Created();
     }
 
     [HttpPut("genres/{id:int:min(1)}")]
-    public async Task<ActionResult> Update(int id, Genre genre)
+    public async Task<ActionResult> Update(int id, UpdateGenreRequestDTO genreDTO)
     {
-      try
-      {
-        _repository.Update(genre);
-        await _unitOfWork.Commit();
+      var genre = _repository.Get(g => g.Id == id);
 
-        return Ok(genre);
-      }
-      catch (Exception ex)
-      {
-        return UnprocessableEntity(new { message = ex.Message });
-      }
+      if (genre == null) return NotFound();
+      genre.Name = genreDTO.Name;
+      _repository.Update(genre);
+      new GenreValidator().ValidateAndThrow(genre);
+      await _unitOfWork.Commit();
+
+      return Ok(genre);
     }
 
     [HttpDelete("genres/{id:int}")]
@@ -85,6 +83,7 @@ namespace RymCloneApi.src.Controllers.v1
       {
         await _unitOfWork.Commit();
 
+        return Ok(deletedGenre);
       }
       catch (DbUpdateException ex)
       {
@@ -94,8 +93,6 @@ namespace RymCloneApi.src.Controllers.v1
           Cause = ex
         };
       }
-
-      return Ok(deletedGenre);
     }
   }
 }

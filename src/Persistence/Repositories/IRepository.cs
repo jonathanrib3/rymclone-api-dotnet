@@ -7,6 +7,7 @@ namespace RymCloneApi.src.Persistence.Repositories
   {
     Task<IEnumerable<T>> GetAllAsync();
     T? Get(Expression<Func<T, bool>> predicate);
+    T? Get(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
     Task<T> CreateAsync(T entity);
     T Update(T entity);
     T Delete(T entity);

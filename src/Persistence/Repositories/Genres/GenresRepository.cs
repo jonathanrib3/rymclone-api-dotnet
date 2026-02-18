@@ -12,7 +12,6 @@ namespace RymCloneApi.src.Persistence.Repositories.Genres
     private readonly IAppDbContext _context;
     public GenresRepository(IAppDbContext context) : base(context)
     {
-      _context = context;
     }
   }
 }

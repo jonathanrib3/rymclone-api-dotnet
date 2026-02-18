@@ -12,47 +12,61 @@ public class InitialDevSeeds : ISeed
   {
     Artist[] artists =
     [
-      new(name: "Emperor"),
-      new(name: "Portishead"),
-      new(name: "Magdalena bay"),
-      new(name: "Caligula"),
+      new Artist { Name = "Emperor"},
+      new Artist { Name = "Portishead"},
+      new Artist { Name = "Magdalena bay"},
+      new Artist {  Name = "Caligula" }
     ];
 
     Genre[] genres =
     [
-      new(name: "Black metal"),
-      new(name: "Trip hop"),
-      new(name: "Pop"),
-      new(name: "Industrial"),
+      new Genre { Name = "Black metal" },
+      new Genre { Name = "Trip hop" },
+      new Genre { Name = "Pop" },
+      new Genre { Name = "Industrial" }
     ];
 
     Album[] albums =
     [
-      new(
-        title: "In the nightside eclipse",
-        releaseDate: DateTime.Today,
-        artist: artists[0],
-        genres: [genres[0]]
-      ),
-      new(title: "Dummy", releaseDate: DateTime.Today, artist: artists[1], genres: [genres[1]]),
-      new(
-        title: "Imaginal Disk",
-        releaseDate: DateTime.Today,
-        artist: artists[2],
-        genres: [genres[2]]
-      ),
-      new(title: "Caligula", releaseDate: DateTime.Today, artist: artists[3], genres: [genres[3]]),
+      new Album
+      {
+        Title = "In the nightside eclipse",
+        ReleaseDate = DateTime.Today,
+        Artist = artists[0],
+        Genres = new List<Genre> {genres[0]}
+      },
+      new Album
+      {
+        Title = "Dummy",
+        ReleaseDate = DateTime.Today,
+        Artist = artists[1],
+        Genres = new List<Genre> {genres[1]}
+      },
+      new Album
+      {
+        Title = "Imaginal Disk",
+        ReleaseDate = DateTime.Today,
+        Artist = artists[2],
+        Genres = new List<Genre> {genres[2]}
+      },
+      new Album
+      {
+        Title = "Caligula",
+        ReleaseDate = DateTime.Today,
+        Artist = artists[3],
+        Genres = new List<Genre> {genres[3]}
+      },
     ];
 
-    foreach(Artist artist in artists)
+    foreach (Artist artist in artists)
     {
       context.Add<Artist>(artist);
     }
-    foreach(Genre genre in genres)
+    foreach (Genre genre in genres)
     {
       context.Add<Genre>(genre);
     }
-    foreach(Album album in albums)
+    foreach (Album album in albums)
     {
       context.Add<Album>(album);
     }

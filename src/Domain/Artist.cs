@@ -5,16 +5,11 @@ namespace RymCloneApi.src.Domain;
 
 public class Artist
 {
-  protected Artist()
+  public Artist()
   {
     Albums = [];
   }
 
-  public Artist(string name, ICollection<Album>? albums = null)
-  {
-    Name = name;
-    Albums = albums ?? [];
-  }
   [Key]
   public int? Id { get; set; }
   [Required]
