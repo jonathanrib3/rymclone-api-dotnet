@@ -55,7 +55,8 @@ namespace RymCloneApi.src.Persistence.Migrations
                         name: "FK_albums_artists_artist_id",
                         column: x => x.artist_id,
                         principalTable: "artists",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

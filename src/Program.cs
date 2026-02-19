@@ -10,6 +10,7 @@ using RymCloneApi.src.Persistence;
 using RymCloneApi.src.Persistence.Context;
 using RymCloneApi.src.Persistence.Context.Interfaces;
 using RymCloneApi.src.Persistence.Repositories;
+using RymCloneApi.src.Persistence.Repositories.Albums;
 using RymCloneApi.src.Persistence.Repositories.Artists;
 using RymCloneApi.src.Persistence.Repositories.Genres;
 using RymCloneApi.src.Persistence.UnitOfWork;
@@ -41,6 +42,7 @@ builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRepository<Genre>, GenresRepository>();
 builder.Services.AddScoped<IRepository<Artist>, ArtistsRepository>();
+builder.Services.AddScoped<Repository<Album>, AlbumsRepository>();
 
 var app = builder.Build();
 

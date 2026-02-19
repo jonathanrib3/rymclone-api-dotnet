@@ -12,7 +12,7 @@ using RymCloneApi.src.Persistence.Context;
 namespace RymCloneApi.src.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260212185323_CreateAlbumsGenresAndArtists")]
+    [Migration("20260219151409_CreateAlbumsGenresAndArtists")]
     partial class CreateAlbumsGenresAndArtists
     {
         /// <inheritdoc />
@@ -131,7 +131,8 @@ namespace RymCloneApi.src.Persistence.Migrations
                 {
                     b.HasOne("RymCloneApi.src.Domain.Artist", "Artist")
                         .WithMany("Albums")
-                        .HasForeignKey("ArtistId");
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Artist");
                 });

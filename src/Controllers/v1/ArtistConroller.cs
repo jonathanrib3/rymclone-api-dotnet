@@ -5,10 +5,9 @@ using RymCloneApi.src.Domain;
 using RymCloneApi.src.Domain.DTOs.v1;
 using RymCloneApi.src.Domain.DTOs.v1.Extensions;
 using RymCloneApi.src.Domain.Validators;
-using RymCloneApi.src.Persistence.Context.Interfaces;
+using RymCloneApi.src.Exceptions.UnprocessableEntityException;
 using RymCloneApi.src.Persistence.Repositories;
 using RymCloneApi.src.Persistence.UnitOfWork;
-using System.Threading.Tasks;
 
 namespace RymCloneApi.src.Controllers.v1
 {
@@ -51,6 +50,41 @@ namespace RymCloneApi.src.Controllers.v1
       new ArtistValidator().ValidateAndThrow(artist);
       await _repository.CreateAsync(artist);
       await _unitOfWork.Commit();
+
+      return Ok(artist);
+    }
+
+    [HttpPut("artists/{id:int:min(1)}")]
+    public async Task<ActionResult<Artist>> Update(int id, UpdateArtistRequestDTO artistDTO)
+    {
+      var artist = _repository.Get(ar => ar.Id == id);
+      if (artist == null) return NotFound();
+      artist.Name = artistDTO.Name;
+      new ArtistValidator().ValidateAndThrow(artist);
+      _repository.Update(artist);
+      await _unitOfWork.Commit();
+
+      return Ok(artist);
+    }
+
+    [HttpDelete("artists/{id:int:min(1)}")]
+    public async Task<ActionResult<Artist>> Destroy(int id)
+    {
+      var artist = _repository.Get(ar => ar.Id == id);
+      if (artist == null) return NotFound();
+      _repository.Delete(artist);
+      try
+      {
+        await _unitOfWork.Commit();
+      }
+      catch (DbUpdateException ex)
+      {
+        throw new UnprocessableEntityException("Cannot delete an Artist that has albums - make sure to delete or modify this Artist's albums before deleting it.")
+        {
+          Trace = ex.StackTrace,
+          Cause = ex
+        };
+      }
 
       return Ok(artist);
     }

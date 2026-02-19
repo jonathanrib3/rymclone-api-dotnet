@@ -128,7 +128,8 @@ namespace RymCloneApi.src.Persistence.Migrations
                 {
                     b.HasOne("RymCloneApi.src.Domain.Artist", "Artist")
                         .WithMany("Albums")
-                        .HasForeignKey("ArtistId");
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Artist");
                 });
