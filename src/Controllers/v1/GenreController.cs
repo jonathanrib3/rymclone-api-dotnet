@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RymCloneApi.src.Domain;
-using RymCloneApi.src.Domain.DTOs.v1;
-using RymCloneApi.src.Domain.DTOs.v1.Extensions;
+using RymCloneApi.src.Controllers.v1.DTOs.Extensions;
+using RymCloneApi.src.Controllers.v1.DTOs.GenresDTOs;
+using RymCloneApi.src.Domain.Entities;
 using RymCloneApi.src.Domain.Validators;
 using RymCloneApi.src.Exceptions.UnprocessableEntityException;
 using RymCloneApi.src.Persistence.Repositories;

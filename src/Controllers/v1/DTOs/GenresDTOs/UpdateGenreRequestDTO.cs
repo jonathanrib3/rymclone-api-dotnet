@@ -1,4 +1,4 @@
-﻿namespace RymCloneApi.src.Domain.DTOs.v1
+﻿namespace RymCloneApi.src.Controllers.v1.DTOs.GenresDTOs
 {
   public class UpdateGenreRequestDTO
   {

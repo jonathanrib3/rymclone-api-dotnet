@@ -1,6 +1,7 @@
-﻿using RymCloneApi.src.Domain.DTOs.v1;
+﻿using RymCloneApi.src.Controllers.v1.DTOs.GenresDTOs;
+using RymCloneApi.src.Domain.Entities;
 
-namespace RymCloneApi.src.Domain.DTOs.v1.Extensions
+namespace RymCloneApi.src.Controllers.v1.DTOs.Extensions
 {
   public static class GenreDTOMappingExtensions
   {

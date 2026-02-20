@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RymCloneApi.src.Domain;
+namespace RymCloneApi.src.Domain.Entities;
 
 public class Genre
 {

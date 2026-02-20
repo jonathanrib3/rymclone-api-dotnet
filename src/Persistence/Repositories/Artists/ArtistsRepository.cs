@@ -1,4 +1,4 @@
-﻿using RymCloneApi.src.Domain;
+﻿using RymCloneApi.src.Domain.Entities;
 using RymCloneApi.src.Persistence.Context.Interfaces;
 
 namespace RymCloneApi.src.Persistence.Repositories.Artists

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Internal;
-using RymCloneApi.src.Domain;
+using RymCloneApi.src.Domain.Entities;
 
 namespace RymCloneApi.src.Persistence.Context.Interfaces
 {

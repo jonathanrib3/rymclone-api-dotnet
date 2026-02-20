@@ -1,6 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using RymCloneApi.src.Domain;
+using RymCloneApi.src.Domain.Entities;
 using RymCloneApi.src.Persistence.Context;
 using RymCloneApi.src.Persistence.Seeds.Interfaces;
 

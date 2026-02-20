@@ -9,8 +9,8 @@ namespace RymCloneApi.src.Persistence.Repositories
 {
   public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
   {
-    private readonly IAppDbContext _context;
-    private readonly DbSet<TEntity> _table;
+    protected readonly IAppDbContext _context;
+    protected readonly DbSet<TEntity> _table;
 
     public Repository(IAppDbContext context)
     {

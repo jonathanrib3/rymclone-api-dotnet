@@ -1,7 +1,7 @@
 using dotenv.net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RymCloneApi.src.Domain;
+using RymCloneApi.src.Domain.Entities;
 using RymCloneApi.src.Exceptions.Handlers;
 using RymCloneApi.src.Exceptions.InternalServerErrorException;
 using RymCloneApi.src.Exceptions.NotFoundErrorException;
@@ -40,9 +40,9 @@ builder.Services.AddScoped<AppDbContextInitializer>();
 builder.Services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IRepository<Genre>, GenresRepository>();
+builder.Services.AddScoped<IGenresRepository, GenresRepository>();
+builder.Services.AddScoped<IAlbumsRepository, AlbumsRepository>();
 builder.Services.AddScoped<IRepository<Artist>, ArtistsRepository>();
-builder.Services.AddScoped<Repository<Album>, AlbumsRepository>();
 
 var app = builder.Build();
 

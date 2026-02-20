@@ -1,7 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RymCloneApi.src.Domain;
+using RymCloneApi.src.Domain.Entities;
 
 namespace RymCloneApi.src.Persistence.Configurations;
 

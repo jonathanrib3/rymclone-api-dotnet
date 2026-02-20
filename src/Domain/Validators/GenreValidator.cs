@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using RymCloneApi.src.Domain.Entities;
 
 namespace RymCloneApi.src.Domain.Validators
 {
