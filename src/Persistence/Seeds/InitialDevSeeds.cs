@@ -1,4 +1,5 @@
 using System;
+using Bogus;
 using Microsoft.EntityFrameworkCore;
 using RymCloneApi.src.Domain.Entities;
 using RymCloneApi.src.Persistence.Context;
@@ -57,6 +58,17 @@ public class InitialDevSeeds : ISeed
         Genres = new List<Genre> {genres[3]}
       },
     ];
+    List<Album> fakeAlbums = new List<Album>();
+    for(int i = 0; i< 100; i++)
+    {
+      var fakeAlbum = new Faker<Album>()
+        .RuleFor(al => al.Id, f => null)
+        .RuleFor(al => al.Title, f => f.Lorem.Sentence(8))
+        .RuleFor(al => al.ReleaseDate, f => f.Date.Past())
+        .RuleFor(al => al.Artist, f => artists[f.Random.Number(0, artists.Length - 1)])
+        .RuleFor(al => al.Genres, f => genres[0..f.Random.Number(0, genres.Length)]);
+      fakeAlbums.Add(fakeAlbum);
+    }
 
     foreach (Artist artist in artists)
     {
@@ -70,6 +82,11 @@ public class InitialDevSeeds : ISeed
     {
       context.Add<Album>(album);
     }
+    foreach (Album album in fakeAlbums)
+    {
+      context.Add<Album>(album);
+    }
+
   }
 
   public static bool ShouldSeed(DbContext context)

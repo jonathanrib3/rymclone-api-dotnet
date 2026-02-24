@@ -38,5 +38,29 @@ namespace RymCloneApi.src.Controllers.v1.DTOs.Extensions
         Genres = genres
       };
     }
+  
+    public static UpdateAlbumRequestDTO FromAlbumToUpdateAlbumRequest(this Album album)
+    {
+      return new UpdateAlbumRequestDTO
+      {
+        ArtistId = album.ArtistId,
+        GenresIds = album.Genres.Select(g => (int)g.Id).ToList(),
+        ReleaseDate = album.ReleaseDate,
+        Title = album.Title
+      };
+    }
+
+    public static Album FromUpdateAlbumRequestToAlbum(this UpdateAlbumRequestDTO dto, int albumId, Artist artist, IEnumerable<Genre> genres)
+    {
+      return new Album
+      {
+        Id = albumId,
+        Artist = artist,
+        Genres = genres.ToList(),
+        ArtistId = artist.Id,
+        ReleaseDate = dto.ReleaseDate,
+        Title = dto.Title,
+      };
+    }
   }
 }

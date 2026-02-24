@@ -27,6 +27,7 @@ builder.Services.Configure<ApiBehaviorOptions>(opt =>
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<JsonPatchExceptionHandler>();
 builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
 builder.Services.AddExceptionHandler<UnprocessableEntityExceptionHandler>();
 builder.Services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
@@ -35,6 +36,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
   options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
   options.JsonSerializerOptions.IncludeFields = true;
 });
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddScoped<AppDbContextInitializer>();
 builder.Services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
@@ -42,7 +44,7 @@ builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGenresRepository, GenresRepository>();
 builder.Services.AddScoped<IAlbumsRepository, AlbumsRepository>();
-builder.Services.AddScoped<IRepository<Artist>, ArtistsRepository>();
+builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
 
 var app = builder.Build();
 

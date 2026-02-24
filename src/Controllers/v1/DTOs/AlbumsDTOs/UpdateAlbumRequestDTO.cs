@@ -5,6 +5,6 @@
     public String? Title { get; set; }
     public DateTime? ReleaseDate {  get; set;  }
     public int? ArtistId { get; set; }
-    public int[]? GenresIds { get; set; }
+    public IEnumerable<int>? GenresIds { get; set; }
   }
 }
