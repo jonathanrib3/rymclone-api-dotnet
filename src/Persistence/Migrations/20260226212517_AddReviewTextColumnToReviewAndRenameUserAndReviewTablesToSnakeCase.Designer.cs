@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RymCloneApi.src.Persistence.Context;
@@ -11,9 +12,11 @@ using RymCloneApi.src.Persistence.Context;
 namespace RymCloneApi.src.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260226212517_AddReviewTextColumnToReviewAndRenameUserAndReviewTablesToSnakeCase")]
+    partial class AddReviewTextColumnToReviewAndRenameUserAndReviewTablesToSnakeCase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,8 +192,8 @@ namespace RymCloneApi.src.Persistence.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
                         .HasColumnName("username");
 
                     b.HasKey("Id");

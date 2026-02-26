@@ -10,6 +10,9 @@ namespace RymCloneApi.src.Persistence.Context.Interfaces
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Artist> Artists { get; set; }
     public DbSet<Album> Albums { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+
     public ChangeTracker ChangeTracker { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

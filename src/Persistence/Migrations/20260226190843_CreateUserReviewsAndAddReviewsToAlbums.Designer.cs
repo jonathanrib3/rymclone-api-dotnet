@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RymCloneApi.src.Persistence.Context;
@@ -11,9 +12,11 @@ using RymCloneApi.src.Persistence.Context;
 namespace RymCloneApi.src.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260226190843_CreateUserReviewsAndAddReviewsToAlbums")]
+    partial class CreateUserReviewsAndAddReviewsToAlbums
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,10 +132,6 @@ namespace RymCloneApi.src.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("ReviewText")
-                        .HasColumnType("text")
-                        .HasColumnName("review_text");
-
                     b.Property<int>("Score")
                         .HasColumnType("integer")
                         .HasColumnName("score");
@@ -154,12 +153,11 @@ namespace RymCloneApi.src.Persistence.Migrations
 
                     b.HasIndex("AlbumId1");
 
+                    b.HasIndex("UserId");
+
                     b.HasIndex("UserId1");
 
-                    b.HasIndex("UserId", "AlbumId")
-                        .IsUnique();
-
-                    b.ToTable("review", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("RymCloneApi.src.Domain.Entities.User", b =>
@@ -189,16 +187,13 @@ namespace RymCloneApi.src.Persistence.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
                         .HasColumnName("username");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.ToTable("user", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AlbumGenre", b =>

@@ -10,6 +10,7 @@ namespace RymCloneApi.src.Domain.Entities
     public Album()
     {
       Genres = [];
+      Reviews = [];
     }
 
     [Key]
@@ -26,5 +27,6 @@ namespace RymCloneApi.src.Domain.Entities
     public Artist? Artist { get; set; }
 
     public ICollection<Genre> Genres { get; set; }
+    public ICollection<Review> Reviews { get; set; }
   }
 }

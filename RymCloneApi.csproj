@@ -48,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\Persistence\Configurations\" />
     <Folder Include="src\Persistence\Seeds\" />
     <Folder Include="src\Persistence\Seeds\Interfaces\" />
   </ItemGroup>

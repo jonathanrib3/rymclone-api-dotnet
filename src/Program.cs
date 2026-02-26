@@ -1,7 +1,6 @@
 using dotenv.net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RymCloneApi.src.Domain.Entities;
 using RymCloneApi.src.Exceptions.Handlers;
 using RymCloneApi.src.Exceptions.InternalServerErrorException;
 using RymCloneApi.src.Exceptions.NotFoundErrorException;
@@ -9,10 +8,10 @@ using RymCloneApi.src.Exceptions.UnprocessableEntityException;
 using RymCloneApi.src.Persistence;
 using RymCloneApi.src.Persistence.Context;
 using RymCloneApi.src.Persistence.Context.Interfaces;
-using RymCloneApi.src.Persistence.Repositories;
 using RymCloneApi.src.Persistence.Repositories.Albums;
 using RymCloneApi.src.Persistence.Repositories.Artists;
 using RymCloneApi.src.Persistence.Repositories.Genres;
+using RymCloneApi.src.Persistence.Repositories.Reviews;
 using RymCloneApi.src.Persistence.UnitOfWork;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
@@ -45,6 +44,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGenresRepository, GenresRepository>();
 builder.Services.AddScoped<IAlbumsRepository, AlbumsRepository>();
 builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
+builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
 
 var app = builder.Build();
 

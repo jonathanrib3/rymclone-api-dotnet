@@ -59,15 +59,38 @@ public class InitialDevSeeds : ISeed
       },
     ];
     List<Album> fakeAlbums = new List<Album>();
-    for(int i = 0; i< 100; i++)
+    List<User> fakeUsers = new List<User>();
+    List<Review> fakeReviews = new List<Review>();
+    for (int i = 0; i < 100; i++)
     {
       var fakeAlbum = new Faker<Album>()
         .RuleFor(al => al.Id, f => null)
         .RuleFor(al => al.Title, f => f.Lorem.Sentence(8))
-        .RuleFor(al => al.ReleaseDate, f => f.Date.Past())
+        .RuleFor(al => al.ReleaseDate, f => f.Date.Past().ToUniversalTime())
         .RuleFor(al => al.Artist, f => artists[f.Random.Number(0, artists.Length - 1)])
         .RuleFor(al => al.Genres, f => genres[0..f.Random.Number(0, genres.Length)]);
       fakeAlbums.Add(fakeAlbum);
+    }
+    for (int i = 0; i < 5; i++)
+    {
+      var fakeUser = new Faker<User>()
+        .RuleFor(u => u.Id, f => null)
+        .RuleFor(u => u.Username, f => f.Internet.UserName())
+        .RuleFor(u => u.FirstName, f => f.Name.FirstName())
+        .RuleFor(u => u.LastName, f => f.Name.LastName())
+        .RuleFor(u => u.Bio, f => f.Lorem.Paragraphs(4))
+        .RuleFor(u => u.Birthday, f => f.Date.Past(20).ToUniversalTime());
+      fakeUsers.Add(fakeUser);
+    }
+    for (int i = 0; i < 50; i++)
+    {
+      var fakeReview = new Faker<Review>()
+        .RuleFor(r => r.Id, f => null)
+        .RuleFor(r => r.Score, f => f.Random.Number(0, 5))
+        .RuleFor(r => r.ReviewText, f => f.Lorem.Paragraphs(4))
+        .RuleFor(r => r.User, f => fakeUsers[f.Random.Number(0, fakeUsers.Count - 1)])
+        .RuleFor(r => r.Album, f => fakeAlbums[i]);
+      fakeReviews.Add(fakeReview);
     }
 
     foreach (Artist artist in artists)
@@ -86,7 +109,14 @@ public class InitialDevSeeds : ISeed
     {
       context.Add<Album>(album);
     }
-
+    foreach (User user in fakeUsers)
+    {
+      context.Add<User>(user);
+    }
+    foreach (Review review in fakeReviews)
+    {
+      context.Add<Review>(review);
+    }
   }
 
   public static bool ShouldSeed(DbContext context)
@@ -94,7 +124,9 @@ public class InitialDevSeeds : ISeed
     var anyArtists = context.Set<Artist>().Any();
     var anyGenres = context.Set<Genre>().Any();
     var anyAlbums = context.Set<Album>().Any();
+    var anyUsers = context.Set<User>().Any();
+    var anyReviews = context.Set<Review>().Any();
 
-    return !anyArtists && !anyGenres && !anyAlbums;
+    return !anyArtists && !anyGenres && !anyAlbums && !anyUsers && !anyReviews;
   }
 }
