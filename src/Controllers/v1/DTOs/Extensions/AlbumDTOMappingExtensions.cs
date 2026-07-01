@@ -1,0 +1,66 @@
+﻿using RymCloneApi.src.Domain.Entities;
+using RymCloneApi.src.Controllers.v1.DTOs.AlbumsDTOs;
+namespace RymCloneApi.src.Controllers.v1.DTOs.Extensions
+{
+  public static class AlbumDTOMappingExtensions
+  {
+    public static Album FromCreateArtistRequestToAlbum(this CreateAlbumRequestDTO dto, IEnumerable<Genre> genres)
+    {
+      return new Album
+      {
+        Title = dto.Title,
+        ReleaseDate = dto.ReleaseDate,
+        ArtistId = dto.ArtistId,
+        Genres = genres.ToList()
+      };
+    }
+    public static AlbumResponseDTO FromAlbumToAlbumResponse(this Album album)
+    {
+      var genres = album.Genres.Select(genre =>
+      {
+        return new AlbumGenreResponseDTO
+        {
+          Id = genre.Id,
+          Name = genre.Name
+        };
+      });
+
+      return new AlbumResponseDTO
+      {
+        Id = album.Id,
+        Title = album.Title,
+        ReleaseDate = album.ReleaseDate,
+        Artist = new AlbumArtistResponseDTO 
+        { 
+          Id = album.Artist.Id,
+          Name = album.Artist.Name
+        },
+        Genres = genres
+      };
+    }
+  
+    public static UpdateAlbumRequestDTO FromAlbumToUpdateAlbumRequest(this Album album)
+    {
+      return new UpdateAlbumRequestDTO
+      {
+        ArtistId = album.ArtistId,
+        GenresIds = album.Genres.Select(g => (int)g.Id).ToList(),
+        ReleaseDate = album.ReleaseDate,
+        Title = album.Title
+      };
+    }
+
+    public static Album FromUpdateAlbumRequestToAlbum(this UpdateAlbumRequestDTO dto, int albumId, Artist artist, IEnumerable<Genre> genres)
+    {
+      return new Album
+      {
+        Id = albumId,
+        Artist = artist,
+        Genres = genres.ToList(),
+        ArtistId = artist.Id,
+        ReleaseDate = dto.ReleaseDate,
+        Title = dto.Title,
+      };
+    }
+  }
+}
